@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Paleblood</title>
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta name="theme-color" content="#0c0809">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="Paleblood">
+<link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png?v=1">
+<link rel="icon" type="image/png" sizes="64x64" href="./favicon.png?v=1">
+<link rel="manifest" href="./manifest.json?v=1">
+<style>html,body{background:#0c0809;margin:0;height:100%}</style>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<script src="./support.js?v=1"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0c0809">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="Paleblood">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=IM+Fell+English+SC&display=swap" rel="stylesheet">
+<style>
+html,body{margin:0;height:100%;background:#0c0809;color:#efe8e4;font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue",Helvetica,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:#e9cdc7}a:hover{color:#fff}
+*{box-sizing:border-box}
+button{font:inherit;color:inherit}
+::-webkit-scrollbar{width:0;height:0}
+@keyframes pb-drift{0%{transform:translate(0,0) scale(1)}50%{transform:translate(16px,-22px) scale(1.05)}100%{transform:translate(0,0) scale(1)}}
+@keyframes pb-fog{0%{transform:translateX(-8%)}50%{transform:translateX(8%)}100%{transform:translateX(-8%)}}
+</style>
+</helmet>
+<div style="position:{{ outerPos }};inset:0;min-height:100%;display:flex;align-items:center;justify-content:center;padding:{{ outerPad }};background:{{ outerBg }}">
+  <div style="position:relative;width:100%;max-width:{{ frameMaxW }};height:{{ frameH }};border-radius:{{ frameR }};overflow:hidden;background:#0c0809;box-shadow:{{ frameShadow }}">
+
+    {{ bg }}
+
+    <div style="position:absolute;inset:0;overflow-y:auto;padding:{{ topPadA }} 18px calc(env(safe-area-inset-bottom) + 16px);transition:transform .55s cubic-bezier(.2,.8,.2,1), opacity .4s ease;transform:{{ chooseTf }};opacity:{{ chooseOp }};pointer-events:{{ choosePe }}">
+      <div style="display:flex;flex-direction:column;gap:4px;padding:0 6px 16px">
+        <div style="font-family:'IM Fell English SC',serif;font-size:16px;letter-spacing:.1em;color:rgba(239,232,228,0.62)">Paleblood · Bloodborne</div>
+        <div style="font-family:'IM Fell English',serif;font-size:38px;line-height:1.05">Which ending?</div>
+        <div style="font-size:14px;line-height:1.35;color:rgba(239,232,228,0.7);text-wrap:pretty">Pick an ending. You’ll get a checklist that follows the order you play it in.</div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <sc-for list="{{ endings }}" as="e" hint-placeholder-count="3">
+          <button onClick="{{ e.onPick }}" style="position:relative;overflow:hidden;text-align:left;cursor:pointer;display:flex;flex-direction:column;gap:10px;padding:16px 18px 14px;border-radius:26px;border:1px solid rgba(255,255,255,0.16);background:linear-gradient(165deg, rgba(255,255,255,0.15), rgba(255,255,255,0.04) 55%);backdrop-filter:blur(22px) saturate(170%);-webkit-backdrop-filter:blur(22px) saturate(170%);box-shadow:inset 0 1px 0 rgba(255,255,255,0.32), inset 0 -1px 0 rgba(255,255,255,0.06), 0 12px 30px rgba(0,0,0,0.35);transition:transform .35s cubic-bezier(.34,1.56,.64,1)" style-active="transform:scale(0.97)">
+            <sc-if value="{{ showMoons }}" hint-placeholder-val="{{ true }}">
+              <div style="position:absolute;right:-24px;top:-30px;width:100px;height:100px;border-radius:50%;background:{{ e.moonBg }};box-shadow:0 0 50px {{ e.moonGlow }};opacity:.55;pointer-events:none"></div>
+            </sc-if>
+            <div style="position:relative;display:flex;flex-direction:column;gap:3px;padding-right:58px">
+              <div style="display:flex;align-items:center;gap:10px;font-family:'IM Fell English',serif;font-size:25px;line-height:1.1"><div style="flex:none;width:9px;height:9px;border-radius:50%;background:{{ e.accent }};box-shadow:0 0 12px {{ e.accent }}"></div>{{ e.name }}</div>
+              <div style="font-size:13.5px;line-height:1.35;color:rgba(239,232,228,0.72);text-wrap:pretty">{{ e.blurb }}</div>
+            </div>
+            <div style="position:relative;display:flex;align-items:center;gap:10px">
+              <div style="flex:1;height:6px;border-radius:3px;background:rgba(255,255,255,0.1);overflow:hidden">
+                <div style="height:100%;border-radius:3px;background:{{ e.accent }};width:{{ e.pctStr }};transition:width .5s ease"></div>
+              </div>
+              <div style="font-size:12px;font-variant-numeric:tabular-nums;color:rgba(239,232,228,0.65);min-width:44px;text-align:right">{{ e.countStr }}</div>
+            </div>
+          </button>
+        </sc-for>
+      </div>
+      <div style="padding:14px 8px 0;font-size:12px;line-height:1.5;color:rgba(239,232,228,0.5);text-wrap:pretty">Progress is saved on this device. Spoilers ahead in every list. Steps from the <a href="https://bloodborne.wiki.fextralife.com/Endings" target="_blank" rel="noopener">Bloodborne Wiki</a>. · v1</div>
+    </div>
+
+    <div style="position:absolute;inset:0;overflow-y:auto;padding:{{ topPadB }} 16px calc(env(safe-area-inset-bottom) + 120px);transition:transform .55s cubic-bezier(.2,.8,.2,1), opacity .4s ease;transform:{{ listTf }};opacity:{{ listOp }};pointer-events:{{ listPe }}">
+      <div style="display:flex;align-items:center;gap:16px;padding:0 6px 18px">
+        <div style="position:relative;width:64px;height:64px;flex:none">
+          <svg width="64" height="64" viewBox="0 0 64 64" style="transform:rotate(-90deg)">
+            <circle cx="32" cy="32" r="27" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="6"></circle>
+            <circle cx="32" cy="32" r="27" fill="none" stroke="{{ cur.accent }}" stroke-width="6" stroke-linecap="round" stroke-dasharray="169.65" stroke-dashoffset="{{ cur.ringOffset }}" style="transition:stroke-dashoffset .6s cubic-bezier(.2,.8,.2,1)"></circle>
+          </svg>
+          <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;font-variant-numeric:tabular-nums">{{ cur.pctLabel }}</div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:2px;min-width:0">
+          <div style="font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:{{ cur.accent }}">{{ cur.countStr }}</div>
+          <div style="font-family:'IM Fell English',serif;font-size:29px;line-height:1.08;text-wrap:balance">{{ cur.name }}</div>
+          <div style="font-size:13.5px;color:rgba(239,232,228,0.65)">At Gehrman: {{ cur.give }}</div>
+        </div>
+      </div>
+
+      <sc-if value="{{ cur.hasCords }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex;align-items:center;gap:12px;margin:0 0 14px;padding:12px 16px;border-radius:22px;border:1px solid rgba(255,255,255,0.14);background:rgba(255,255,255,0.06);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)">
+          <div style="display:flex;gap:7px">
+            <sc-for list="{{ cur.pips }}" as="pip" hint-placeholder-count="3">
+              <div style="width:13px;height:13px;border-radius:50%;border:1.5px solid {{ pip.bd }};background:{{ pip.bg }};box-shadow:{{ pip.glow }};transition:background .3s ease, box-shadow .3s ease"></div>
+            </sc-for>
+          </div>
+          <div style="font-size:13.5px;font-weight:600;color:rgba(239,232,228,0.82)">{{ cur.cordStr }}</div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ cur.hasNext }}" hint-placeholder-val="{{ true }}">
+        <div style="margin:0 0 18px;padding:16px 16px 16px 18px;border-radius:26px;border:1px solid rgba(255,255,255,0.2);background:linear-gradient(160deg, {{ cur.accentSoft }}, rgba(255,255,255,0.05) 70%);backdrop-filter:blur(24px) saturate(180%);-webkit-backdrop-filter:blur(24px) saturate(180%);box-shadow:inset 0 1px 0 rgba(255,255,255,0.36), 0 14px 34px rgba(0,0,0,0.4);display:flex;align-items:center;gap:14px">
+          <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:3px">
+            <div style="font-size:11.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:rgba(239,232,228,0.7)">Up next · {{ cur.nextPhase }}</div>
+            <div style="font-size:17px;font-weight:600;line-height:1.3;text-wrap:pretty">{{ cur.nextTitle }}</div>
+            <div style="font-size:13px;color:rgba(239,232,228,0.65)">{{ cur.nextLoc }}</div>
+          </div>
+          <button onClick="{{ cur.nextToggle }}" style="flex:none;height:44px;padding:0 18px;border-radius:22px;border:1px solid rgba(255,255,255,0.3);background:{{ cur.accent }};color:#1a0f10;font-size:15px;font-weight:700;cursor:pointer;box-shadow:inset 0 1px 0 rgba(255,255,255,0.6), 0 6px 18px rgba(0,0,0,0.3);transition:transform .3s cubic-bezier(.34,1.56,.64,1)" style-active="transform:scale(0.92)">Done</button>
+        </div>
+      </sc-if>
+      <sc-if value="{{ cur.allDone }}" hint-placeholder-val="{{ false }}">
+        <div style="margin:0 0 18px;padding:26px 20px;border-radius:28px;border:1px solid rgba(255,255,255,0.2);background:linear-gradient(160deg, {{ cur.accentSoft }}, rgba(255,255,255,0.05) 70%);backdrop-filter:blur(24px) saturate(180%);-webkit-backdrop-filter:blur(24px) saturate(180%);box-shadow:inset 0 1px 0 rgba(255,255,255,0.36), 0 14px 34px rgba(0,0,0,0.4);display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center">
+          <div style="width:56px;height:56px;border-radius:50%;background:{{ cur.moonBg }};box-shadow:0 0 36px {{ cur.moonGlow }}"></div>
+          <div style="font-family:'IM Fell English',serif;font-size:24px">{{ cur.name }} reached</div>
+          <div style="font-size:14px;color:rgba(239,232,228,0.7)">Every step is checked off. Farewell, good hunter.</div>
+        </div>
+      </sc-if>
+
+      <div style="display:flex;flex-direction:column;gap:18px">
+        <sc-for list="{{ cur.phases }}" as="ph" hint-placeholder-count="3">
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <div style="display:flex;align-items:baseline;justify-content:space-between;padding:0 10px">
+              <div style="font-family:'IM Fell English SC',serif;font-size:16px;letter-spacing:.06em;color:rgba(239,232,228,0.74)">{{ ph.title }}</div>
+              <div style="font-size:12px;font-variant-numeric:tabular-nums;color:rgba(239,232,228,0.5)">{{ ph.countStr }}</div>
+            </div>
+            <div style="border-radius:26px;overflow:hidden;border:1px solid rgba(255,255,255,0.14);background:linear-gradient(170deg, rgba(255,255,255,0.12), rgba(255,255,255,0.035) 60%);backdrop-filter:blur(22px) saturate(170%);-webkit-backdrop-filter:blur(22px) saturate(170%);box-shadow:inset 0 1px 0 rgba(255,255,255,0.28), 0 10px 28px rgba(0,0,0,0.32)">
+              <sc-for list="{{ ph.rows }}" as="r" hint-placeholder-count="3">
+                <sc-if value="{{ r.isWarn }}" hint-placeholder-val="{{ false }}">
+                  <div style="display:flex;gap:12px;align-items:flex-start;padding:14px 16px;border-top:{{ r.border }};background:rgba(226,182,120,0.09)">
+                    <div style="flex:none;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(226,182,120,0.2);color:#f2d6a6;font-weight:800;font-size:15px">!</div>
+                    <div style="font-size:14px;line-height:1.45;color:#f3e1c4;text-wrap:pretty;padding-top:4px">{{ r.text }}</div>
+                  </div>
+                </sc-if>
+                <sc-if value="{{ r.isStep }}" hint-placeholder-val="{{ true }}">
+                  <div style="display:flex;gap:14px;align-items:flex-start;padding:14px 16px;border-top:{{ r.border }};background:{{ r.rowBg }};transition:background .3s ease">
+                    <button onClick="{{ r.onToggle }}" aria-label="Toggle step" style="flex:none;width:44px;height:44px;margin:-8px;padding:8px;border:none;background:none;cursor:pointer;display:flex;align-items:center;justify-content:center">
+                      <div style="width:28px;height:28px;border-radius:50%;border:1.5px solid {{ r.checkBorder }};background:{{ r.checkBg }};box-shadow:{{ r.checkShadow }};display:flex;align-items:center;justify-content:center;transition:background .25s ease, border-color .25s ease, box-shadow .3s ease, transform .4s cubic-bezier(.34,1.56,.64,1);transform:{{ r.checkTf }}">
+                        <svg width="16" height="16" viewBox="0 0 16 16"><path d="M3.5 8.5 L6.8 11.5 L12.5 4.8" fill="none" stroke="#1a0f10" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="16" stroke-dashoffset="{{ r.checkOffset }}" style="transition:stroke-dashoffset .3s ease .05s"></path></svg>
+                      </div>
+                    </button>
+                    <div onClick="{{ r.onExpand }}" style="flex:1;min-width:0;display:flex;flex-direction:column;gap:5px;cursor:pointer;padding-top:3px">
+                      <div style="display:flex;align-items:flex-start;gap:8px">
+                        <div style="flex:1;font-size:16px;font-weight:600;line-height:1.3;text-wrap:pretty;opacity:{{ r.titleOp }};text-decoration:{{ r.titleDeco }};transition:opacity .3s ease">{{ r.title }}</div>
+                        <sc-if value="{{ r.hasTag }}" hint-placeholder-val="{{ false }}">
+                          <div style="flex:none;margin-top:1px;padding:3px 8px;border-radius:10px;font-size:11px;font-weight:700;letter-spacing:.03em;background:{{ r.tagBg }};color:{{ r.tagColor }};border:1px solid rgba(255,255,255,0.14)">{{ r.tag }}</div>
+                        </sc-if>
+                      </div>
+                      <div style="font-size:13px;color:rgba(239,232,228,0.58)">{{ r.loc }}</div>
+                      <sc-if value="{{ r.showDetail }}" hint-placeholder-val="{{ false }}">
+                        <div style="display:flex;flex-direction:column;gap:10px;margin-top:4px">
+                          <sc-if value="{{ r.hasDetail }}" hint-placeholder-val="{{ true }}">
+                            <div style="font-size:14px;line-height:1.5;color:rgba(239,232,228,0.84);text-wrap:pretty">{{ r.detail }}</div>
+                          </sc-if>
+                          <sc-if value="{{ r.hasLinks }}" hint-placeholder-val="{{ false }}">
+                            <div style="display:flex;flex-wrap:wrap;gap:6px">
+                              <sc-for list="{{ r.links }}" as="lk" hint-placeholder-count="1">
+                                <a href="{{ lk.href }}" target="_blank" rel="noopener" onClick="{{ lk.stop }}" style="display:flex;align-items:center;gap:7px;height:44px;padding:0 15px;border-radius:22px;border:1px solid rgba(255,255,255,0.16);background:rgba(255,255,255,0.07);font-size:13px;font-weight:600;color:#efe8e4;text-decoration:none">{{ lk.t }}<svg width="10" height="10" viewBox="0 0 10 10"><path d="M3 1.5 H8.5 V7 M8.5 1.5 L1.5 8.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></a>
+                              </sc-for>
+                            </div>
+                          </sc-if>
+                        </div>
+                      </sc-if>
+                    </div>
+                  </div>
+                </sc-if>
+              </sc-for>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+
+    <div style="position:absolute;left:0;right:0;top:0;height:{{ scrimH }};background:linear-gradient(180deg, #0c0809 40%, rgba(12,8,9,0));pointer-events:none;z-index:2"></div>
+    <div style="position:absolute;left:16px;right:16px;bottom:max(20px, env(safe-area-inset-bottom));display:flex;align-items:center;gap:8px;padding:6px;border-radius:30px;border:1px solid rgba(255,255,255,0.2);background:linear-gradient(170deg, rgba(255,255,255,0.17), rgba(255,255,255,0.06));backdrop-filter:blur(26px) saturate(190%);-webkit-backdrop-filter:blur(26px) saturate(190%);box-shadow:inset 0 1px 0 rgba(255,255,255,0.42), 0 16px 40px rgba(0,0,0,0.5);transition:transform .5s cubic-bezier(.34,1.3,.64,1), opacity .3s ease;transform:{{ barTf }};opacity:{{ listOp }};pointer-events:{{ listPe }}">
+      <button onClick="{{ goBack }}" style="height:46px;padding:0 16px 0 12px;border-radius:23px;border:none;background:rgba(255,255,255,0.1);display:flex;align-items:center;gap:6px;font-size:15px;font-weight:600;cursor:pointer" style-active="transform:scale(0.94)">
+        <svg width="10" height="16" viewBox="0 0 10 16"><path d="M8 2 L2 8 L8 14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+        Endings
+      </button>
+      <button onClick="{{ toggleHide }}" style="flex:1;height:46px;border-radius:23px;border:none;background:{{ hideBg }};color:{{ hideColor }};font-size:15px;font-weight:600;cursor:pointer;transition:background .25s ease" style-active="transform:scale(0.96)">{{ hideLabel }}</button>
+      <button onClick="{{ onReset }}" style="height:46px;padding:0 16px;border-radius:23px;border:none;background:{{ resetBg }};font-size:15px;font-weight:600;cursor:pointer;transition:background .25s ease" style-active="transform:scale(0.94)">{{ resetLabel }}</button>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;showMoons&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;},&quot;expandAll&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;}}">
+const W = 'https://bloodborne.wiki.fextralife.com/';
+const L = (t, slug) => [t, slug || t.replace(/ /g, '+')];
+const S = (id, t, loc, tag, d, wiki, x) => Object.assign({ id, t, loc, tag, d, wiki: wiki || [] }, x || {});
+const N = warn => ({ warn });
+const GEHRMAN = L('Gehrman', 'Gerhman%2C+The+First+Hunter');
+const MOON = L('Moon Presence');
+const OPEN = 'This completes the Nightmare of Mensis and opens the way to the ending.';
+const wetNurse = (d, x) => S('wetnurse', 'Defeat Mergo’s Wet Nurse', 'Nightmare of Mensis', 'Boss', d, [L('Mergo’s Wet Nurse', "Mergo's+Wet+Nurse"), L('Nightmare of Mensis')], x);
+const TO_GEHRMAN = [
+  S('dream', 'Travel back to the Hunter’s Dream', 'Hunter’s Dream', '', 'Take the path behind the tombstones you use to travel between lamps, then continue through the gate.', [L('Hunter’s Dream', "Hunter's+Dream")]),
+  S('gehrman', 'Find Gehrman on the flowered hill', 'Hunter’s Dream · top of the hill, on the left', '', 'Gehrman, the First Hunter, offers to release you from the dream.', [GEHRMAN])
+];
+const REFUSE = S('refuse', 'Choose “Refuse”', 'Hunter’s Dream · Gehrman', 'Choice', '“Dear oh dear, what was it? The hunt, the blood, or the horrible dream?” He takes up his scythe and the fight begins.');
+const GFIGHT = S('gfight', 'Defeat Gehrman, the First Hunter', 'Hunter’s Dream · flower field', 'Boss', 'If he kills you, you wake at the headstones. The field is now behind a fog gate and he attacks as soon as you re-enter. You can’t change your mind.', [GEHRMAN]);
+const ENDINGS = [
+  { id: 'sunrise', name: 'Yharnam Sunrise', hue: 70, give: 'Submit your Life',
+    moon: ['oklch(0.97 0.04 90)', 'oklch(0.74 0.15 55)', 'oklch(0.72 0.15 60 / 0.45)'],
+    blurb: 'Accept Gehrman’s offer and wake up in Yharnam as the sun rises.',
+    phases: [
+      { title: 'Before you start', steps: [N('Whichever ending you choose, New Game Plus starts as soon as the credits end.')] },
+      { title: 'The end of the night', steps: [wetNurse(OPEN), ...TO_GEHRMAN] },
+      { title: 'Gehrman’s offer', steps: [
+        N('Back up your save here if you want the other endings from this file. The choice is final.'),
+        S('submit', 'Choose “Submit your Life”', 'Hunter’s Dream · Gehrman', 'Choice', '“Farewell, my keen hunter. Fear the blood.” You kneel and Gehrman ends the dream with his scythe.'),
+        S('end', 'Watch the ending', 'Yharnam at dawn', 'Ending', 'You wake to the sunrise and distant bells while the Plain Doll prays by your grave. Reward: “Yharnam Sunrise” trophy.', [L('Plain Doll')])
+      ]}
+    ]},
+  { id: 'wishes', name: 'Honoring Wishes', hue: 22, give: 'Refuse',
+    moon: ['oklch(0.84 0.09 40)', 'oklch(0.48 0.19 25)', 'oklch(0.55 0.21 25 / 0.55)'],
+    blurb: 'Refuse Gehrman, defeat him, and take his place in the Hunter’s Dream.',
+    phases: [
+      { title: 'Before you start', steps: [N('Don’t use three or more One Third of Umbilical Cord. That leads to Childhood’s Beginning instead. Carrying them is fine.')] },
+      { title: 'The end of the night', steps: [wetNurse(OPEN), ...TO_GEHRMAN] },
+      { title: 'Refuse', steps: [
+        N('Back up your save here if you want Yharnam Sunrise from this file. Once you refuse, you can’t accept the offer later.'),
+        REFUSE, GFIGHT,
+        S('end', 'Watch the ending', 'Hunter’s Dream', 'Ending', 'A figure seizes you under the crimson moon. You wake in Gehrman’s wheelchair as the Doll says “And so, the hunt begins again.” Rewards: “Honoring Wishes” trophy and the First Hunter Badge.', [MOON])
+      ]}
+    ]},
+  { id: 'childhood', name: 'Childhood’s Beginning', hue: 255, give: 'Refuse, with 3 cords used', cords: true,
+    moon: ['oklch(0.97 0.02 240)', 'oklch(0.68 0.08 265)', 'oklch(0.75 0.09 255 / 0.4)'],
+    blurb: 'The secret ending. Use three Umbilical Cords, refuse Gehrman and slay the Moon Presence.',
+    phases: [
+      { title: 'Before you start', steps: [
+        N('There are four One Third of Umbilical Cord and you need to use three. Two are missable, so pick them up as you go. Each gives +3 Insight.'),
+        N('Don’t go up to the impostor Iosefka’s room or kill her before Rom, the Vacuous Spider is dead. Doing so early loses her cord.')
+      ]},
+      { title: 'Cathedral Ward', steps: [
+        S('ari-send', 'Send Arianna to Oedon Chapel', 'Lower Cathedral Ward · Arianna’s door', 'Missable', 'Talk to her after defeating at least three bosses and before the Blood Moon. From the plaza with the two church giants, take the narrow stairs down and the alley with lantern enemies to a street with four lamps. Hers is the left-hand door at the dead end. Sending her to Iosefka’s Clinic loses this cord.', [L('Arianna'), L('Oedon Chapel')], { cord: 'arianna' }),
+        N('Keep Arianna alive. Don’t send the Suspicious Beggar to the chapel. If Adella the Nun is there too, don’t accept Arianna’s blood, or Adella may kill her.'),
+        S('workshop', 'Take the cord in the Abandoned Old Workshop', 'Cathedral Ward · below the Healing Church Workshop', 'Cord', 'Needs the Blood-starved Beast defeated. From the Cathedral Ward lamp, take the door on the right and the elevator up. Cross the room with the Gatling-gun wheelchair hunter and the bridge, but don’t enter the next building: go around its right side, drop down and enter the doorway. In the dark tower with wooden scaffolds, drop to the small platform below on your left, then to the next one, and open the door. The cord is on the altar inside the house.', [L('Abandoned Old Workshop')], { cord: 'workshop', pick: true })
+      ]},
+      { title: 'After Rom · Blood Moon', steps: [
+        S('iosefka', 'Kill the impostor Iosefka for her cord', 'Iosefka’s Clinic · upstairs operating room', 'Missable', 'Enter through the back from the Forbidden Woods: left of the dog cages, go through the cave with the poison lake, climb the ladder, go around the clinic and climb another ladder to the roof window. She lies on the operating table upstairs and isn’t hostile.', [L('Iosefka'), L('Iosefka’s Clinic', "Iosefka's+Clinic")], { cord: 'iosefka', pick: true })
+      ]},
+      { title: 'After Micolash', steps: [
+        S('ari-cord', 'Kill Arianna’s newborn for its cord', 'Aqueduct · Cathedral Ward to Tomb of Oedon', 'Missable', 'After you defeat Micolash, Host of the Nightmare, Arianna leaves the chapel. Follow the blood trail from her chair to the aqueduct between the Cathedral Ward and Tomb of Oedon lamps. Killing the newborn also kills Arianna. You get the cord and Arianna’s Shoes.', [L('Micolash', 'Micolash%2C+Host+of+the+Nightmare'), L('Arianna')], { cord: 'arianna', pick: true })
+      ]},
+      { title: 'Nightmare of Mensis', steps: [
+        wetNurse('Drops a One Third of Umbilical Cord. This one can’t be missed.', { cord: 'wetnurse', pick: true }),
+        S('consume', 'Use three One Third of Umbilical Cord', 'From your inventory', 'Key', 'When doesn’t matter, as long as it’s before Gehrman dies. Using them after losing to him, or even during the fight, still counts.', [L('Umbilical Cord', 'One+Third+of+Umbilical+Cord')])
+      ]},
+      { title: 'The end of the night', steps: TO_GEHRMAN },
+      { title: 'Refuse', steps: [
+        N('Back up your save here if you want Yharnam Sunrise from this file. Once you refuse, you can’t accept the offer later.'),
+        REFUSE, GFIGHT,
+        S('moon', 'Defeat the Moon Presence', 'Hunter’s Dream · flower field', 'Boss', 'Instead of taking you, it’s knocked back and attacks. If it kills you, you wake at the headstones, as with Gehrman. Victory shows NIGHTMARE SLAIN.', [MOON]),
+        S('end', 'Watch the ending', 'Hunter’s Dream', 'Ending', 'The Plain Doll picks up a small slug-like creature: “Are you cold...?” Rewards: “Childhood’s Beginning” trophy and the First Hunter Badge.', [L('Plain Doll')]),
+        N('Echoes trick: close the game during the Moon Presence’s intro cutscene to keep Gehrman’s Blood Echoes. The same trick gets you out of Honoring Wishes: after restarting, use three cords and reload the Hunter’s Dream.')
+      ]}
+    ]}
+];
+const KEY = 'paleblood-endings-v1';
+const acc = h => `oklch(0.76 0.13 ${h})`;
+const accA = (h, a) => `oklch(0.76 0.13 ${h} / ${a})`;
+const moonBg = e => `radial-gradient(circle at 36% 34%, ${e.moon[0]} 0%, ${e.moon[1]} 74%)`;
+const TAGS = { Boss: [0.26, '#ffe1dc'], Choice: [0.32, '#fff'], Cord: [0.32, '#fff'], Key: [0.26, '#fff4d6'], Ending: [0.36, '#fff'] };
+
+class Component extends DCLogic {
+  state = { endingId: null, checked: {}, open: null, hideDone: false, confirmReset: false, mobile: window.matchMedia('(max-width: 520px)').matches };
+  componentDidMount() {
+    if (this.state.mobile) { for (const el of [document.documentElement, document.body]) { el.style.overflow = 'hidden'; el.style.overscrollBehavior = 'none'; } }
+    this._mq = window.matchMedia('(max-width: 520px)'); this._mqf = ev => this.setState({ mobile: ev.matches }); this._mq.addEventListener('change', this._mqf);
+    try { const s = JSON.parse(localStorage.getItem(KEY) || '{}'); this.setState({ checked: s.checked || {}, endingId: s.endingId || null }); } catch (err) {}
+  }
+  componentWillUnmount() { if (this._mq) this._mq.removeEventListener('change', this._mqf); clearTimeout(this._t); }
+  save(patch) {
+    this.setState(patch, () => { try { localStorage.setItem(KEY, JSON.stringify({ checked: this.state.checked, endingId: this.state.endingId })); } catch (err) {} });
+  }
+  stats(e, c) {
+    const all = e.phases.flatMap(p => p.steps.filter(s => !s.warn).map(s => ({ s, phase: p.title })));
+    const got = new Set(all.filter(x => x.s.pick && c[x.s.id]).map(x => x.s.cord));
+    const spare = s => !!s.cord && got.size >= 3 && !c[s.id] && !got.has(s.cord);
+    const live = all.filter(x => !spare(x.s));
+    return { live, spare, got: Math.min(got.size, 3), done: live.filter(x => c[x.s.id]).length, next: live.find(x => !c[x.s.id]) };
+  }
+  toggle(eid, sid) {
+    const c = { ...(this.state.checked[eid] || {}) };
+    c[sid] = !c[sid];
+    this.save({ checked: { ...this.state.checked, [eid]: c } });
+  }
+  renderVals() {
+    const { endingId, checked, open, hideDone, confirmReset, mobile: m } = this.state;
+    const showMoons = this.props.showMoons ?? true;
+    const showAll = this.props.expandAll ?? false;
+    const endings = ENDINGS.map(e => {
+      const st = this.stats(e, checked[e.id] || {});
+      return { name: e.name, blurb: e.blurb, accent: acc(e.hue), moonBg: moonBg(e), moonGlow: e.moon[2],
+        pctStr: Math.round(st.done / st.live.length * 100) + '%', countStr: st.done + '/' + st.live.length,
+        onPick: () => this.save({ endingId: e.id, open: null, confirmReset: false }) };
+    });
+    const e = ENDINGS.find(x => x.id === endingId) || ENDINGS[0];
+    const c = checked[e.id] || {};
+    const st = this.stats(e, c), next = st.next;
+    const pct = st.done / st.live.length;
+    const line = '0.5px solid rgba(255,255,255,0.12)';
+    const phases = e.phases.map(p => {
+      const live = p.steps.filter(s => !s.warn && !st.spare(s));
+      const rows = p.steps.filter(s => !(hideDone && !s.warn && (c[s.id] || st.spare(s)))).map((s, i) => {
+        const border = i === 0 ? 'none' : line;
+        if (s.warn) return { isWarn: true, isStep: false, text: s.warn, border };
+        const on = !!c[s.id], sp = st.spare(s), isNext = !!next && next.s.id === s.id;
+        const tag = sp ? 'Not needed' : s.tag, t = TAGS[tag];
+        const links = s.wiki.map(([lt, slug]) => ({ t: lt, href: W + slug, stop: ev => ev.stopPropagation() }));
+        return { isWarn: false, isStep: true, border, title: s.t, loc: s.loc, detail: s.d, hasDetail: !!s.d, links, hasLinks: links.length > 0,
+          tag, hasTag: !!tag,
+          tagBg: tag === 'Missable' ? 'oklch(0.55 0.2 25 / 0.4)' : sp ? 'rgba(255,255,255,0.08)' : accA(e.hue, t ? t[0] : 0.2),
+          tagColor: tag === 'Missable' ? '#ffd6d0' : sp ? 'rgba(239,232,228,0.62)' : (t ? t[1] : '#fff'),
+          showDetail: (!!s.d || links.length > 0) && (showAll || open === s.id),
+          rowBg: isNext ? accA(e.hue, 0.1) : 'transparent',
+          checkBg: on ? acc(e.hue) : 'rgba(255,255,255,0.06)',
+          checkBorder: on || isNext ? acc(e.hue) : 'rgba(255,255,255,0.38)',
+          checkShadow: on ? `0 0 16px ${accA(e.hue, 0.6)}, inset 0 1px 0 rgba(255,255,255,0.6)` : 'inset 0 1px 0 rgba(255,255,255,0.25)',
+          checkTf: on ? 'scale(1.06)' : 'scale(1)', checkOffset: on ? 0 : 16,
+          titleOp: on || sp ? 0.45 : 1, titleDeco: on ? 'line-through' : 'none',
+          onToggle: () => this.toggle(e.id, s.id),
+          onExpand: () => this.setState({ open: open === s.id ? null : s.id }) };
+      });
+      return { title: p.title, countStr: live.length ? live.filter(s => c[s.id]).length + '/' + live.length : '', rows };
+    }).filter(p => !hideDone || p.rows.some(r => r.isStep));
+    const inList = !!endingId;
+    const mE = inList ? e : ENDINGS[1];
+    const blob = style => React.createElement('div', { style: Object.assign({ position: 'absolute', borderRadius: '50%', filter: 'blur(64px)', transition: 'background 1s ease' }, style) });
+    const bg = React.createElement('div', { style: { position: 'absolute', inset: 0, overflow: 'hidden', background: 'radial-gradient(120% 70% at 50% -10%, #2a0e12 0%, #0c0809 62%)' } },
+      React.createElement('div', { style: { position: 'absolute', width: 230, height: 230, top: -64, right: -70, borderRadius: '50%', background: moonBg(mE), boxShadow: `0 0 140px 40px ${mE.moon[2]}`, opacity: 0.5, transition: 'background 1s ease, box-shadow 1s ease', animation: 'pb-drift 24s ease-in-out infinite' } }),
+      blob({ width: 300, height: 300, top: 320, left: -150, background: 'oklch(0.42 0.16 20 / 0.45)', animation: 'pb-drift 18s ease-in-out infinite reverse' }),
+      blob({ width: 280, height: 280, bottom: -90, right: -60, background: inList ? accA(e.hue, 0.26) : 'oklch(0.4 0.1 340 / 0.35)', animation: 'pb-drift 22s ease-in-out infinite' }),
+      React.createElement('div', { style: { position: 'absolute', left: '-25%', right: '-25%', bottom: -40, height: '50%', background: 'radial-gradient(60% 60% at 50% 100%, rgba(190,170,180,0.10), rgba(190,170,180,0) 70%)', animation: 'pb-fog 34s ease-in-out infinite' } }),
+      React.createElement('div', { style: { position: 'absolute', inset: 0, background: 'repeating-linear-gradient(0deg, rgba(255,255,255,0.014) 0 1px, transparent 1px 3px)' } })
+    );
+    return {
+      bg, endings, showMoons,
+      topPadA: m ? 'calc(env(safe-area-inset-top) + 20px)' : '52px', topPadB: m ? 'calc(env(safe-area-inset-top) + 20px)' : '58px', scrimH: m ? 'calc(env(safe-area-inset-top) + 14px)' : '44px',
+      outerPos: m ? 'fixed' : 'relative', outerPad: m ? '0' : '16px', outerBg: m ? '#0c0809' : '#070505',
+      frameMaxW: m ? 'none' : '420px', frameH: m ? '100%' : 'min(880px, calc(100dvh - 32px))',
+      frameR: m ? '0' : '44px', frameShadow: m ? 'none' : '0 0 0 1px rgba(255,255,255,0.08), 0 40px 120px rgba(0,0,0,0.6)',
+      chooseTf: inList ? 'translateX(-30%) scale(0.96)' : 'none', chooseOp: inList ? 0 : 1, choosePe: inList ? 'none' : 'auto',
+      listTf: inList ? 'none' : 'translateX(100%)', listOp: inList ? 1 : 0, listPe: inList ? 'auto' : 'none',
+      barTf: inList ? 'none' : 'translateY(140%)',
+      cur: { name: e.name, give: e.give, accent: acc(e.hue), accentSoft: accA(e.hue, 0.3), moonBg: moonBg(e), moonGlow: e.moon[2],
+        ringOffset: 169.65 * (1 - pct), pctLabel: Math.round(pct * 100) + '%', countStr: st.done + ' of ' + st.live.length + ' steps',
+        hasCords: !!e.cords, cordStr: st.got + ' of 3 cords found',
+        pips: [0, 1, 2].map(i => ({ bd: acc(e.hue), bg: i < st.got ? acc(e.hue) : 'transparent', glow: i < st.got ? `0 0 10px ${accA(e.hue, 0.7)}` : 'none' })),
+        hasNext: !!next, allDone: !next,
+        nextTitle: next ? next.s.t : '', nextLoc: next ? next.s.loc : '', nextPhase: next ? next.phase : '',
+        nextToggle: () => next && this.toggle(e.id, next.s.id), phases },
+      goBack: () => this.save({ endingId: null, confirmReset: false }),
+      toggleHide: () => this.setState({ hideDone: !hideDone }),
+      hideLabel: hideDone ? 'Show done' : 'Hide done',
+      hideBg: hideDone ? acc(e.hue) : 'rgba(255,255,255,0.1)', hideColor: hideDone ? '#1a0f10' : '#efe8e4',
+      resetLabel: confirmReset ? 'Sure?' : 'Reset',
+      resetBg: confirmReset ? 'rgba(255,90,80,0.45)' : 'rgba(255,255,255,0.1)',
+      onReset: () => {
+        if (!confirmReset) { this.setState({ confirmReset: true }); clearTimeout(this._t); this._t = setTimeout(() => this.setState({ confirmReset: false }), 2500); return; }
+        this.save({ checked: { ...checked, [e.id]: {} }, confirmReset: false });
+      }
+    };
+  }
+}
+</script>
+</body>
+</html>
