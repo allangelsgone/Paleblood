@@ -351,7 +351,7 @@ class Component extends DCLogic {
         pips: [0, 1, 2].map(i => ({ bd: acc(e.hue), bg: i < st.got ? acc(e.hue) : 'transparent', glow: i < st.got ? `0 0 10px ${accA(e.hue, 0.7)}` : 'none' })),
         hasNext: !!next, allDone: !next,
         nextTitle: next ? next.s.t : '', nextLoc: next ? next.s.loc : '', nextPhase: next ? next.phase : '',
-        nextToggle: () => next && this.toggle(e.id, next.s.id), phases },
+        nextToggle: () => { const t = Date.now(); if (next && t - (this._doneAt || 0) > 300) { this._doneAt = t; this.toggle(e.id, next.s.id); } }, phases },
       goBack: () => this.save({ endingId: null, confirmReset: false }),
       toggleHide: () => this.setState({ hideDone: !hideDone }),
       hideLabel: hideDone ? 'Show done' : 'Hide done',
