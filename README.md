@@ -6,10 +6,17 @@ Steps are based on the [Bloodborne Wiki Endings page](https://bloodborne.wiki.fe
 
 ## Files
 - `index.html` – the app
-- `support.js` – runtime (must sit next to index.html)
-- `manifest.json`, `apple-touch-icon.png`, `icon-512.png`, `icon-1024.png`, `favicon.png` – icons
+- `support.js` – runtime (must sit next to index.html; generated, don't edit)
+- `vendor/` – React 18.3.1, served locally so the app doesn't depend on a CDN (see `vendor/README.md`)
+- `manifest.json` – web app manifest
+- `apple-touch-icon.png`, `icon-512.png`, `icon-1024.png`, `favicon.png` – icons
 
 ## GitHub Pages
-1. Upload all files to the repo root.
+1. Upload all files, including the `vendor/` folder, to the repo root.
 2. Settings → Pages → Deploy from branch → `main` / root.
 3. Open `https://<user>.github.io/<repo>/` in Safari → Share → Add to Home Screen.
+
+## Notes
+- The footer on the start screen shows the app version. If your phone still shows an older number after an update, close the app and open it again; browsers cache the files for a few minutes.
+- `index.html` points the runtime at the local React copies through the `window.__resources` script in its `<head>`. If you re-export `index.html` from the design tool, keep that script, otherwise the app falls back to loading React from unpkg.com.
+- Progress is stored in the browser's `localStorage` under `paleblood-endings-v1`.

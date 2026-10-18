@@ -14,6 +14,8 @@
 <link rel="manifest" href="./manifest.json?v=1">
 <style>html,body{background:#0c0809;margin:0;height:100%}</style>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<!-- React is served from ./vendor: support.js looks up its CDN URLs in window.__resources first (see vendor/README.md) -->
+<script>window.__resources={"https://unpkg.com/react@18.3.1/umd/react.production.min.js":"./vendor/react.production.min.js","https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js":"./vendor/react-dom.production.min.js"}</script>
 <script src="./support.js?v=1"></script>
 </head>
 <body>
@@ -26,6 +28,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
 <meta name="apple-mobile-web-app-title" content="Paleblood">
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=IM+Fell+English+SC&display=swap" rel="stylesheet">
 <style>
 html,body{margin:0;height:100%;background:#0c0809;color:#efe8e4;font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue",Helvetica,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
