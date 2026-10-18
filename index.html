@@ -70,7 +70,7 @@ button{font:inherit;color:inherit}
       <div style="padding:14px 8px 0;font-size:12px;line-height:1.5;color:rgba(239,232,228,0.5);text-wrap:pretty">Progress is saved on this device. Spoilers ahead in every list. Steps from the <a href="https://bloodborne.wiki.fextralife.com/Endings" target="_blank" rel="noopener">Bloodborne Wiki</a>. · v2</div>
     </div>
 
-    <div style="position:absolute;inset:0;overflow-y:auto;padding:{{ topPadB }} 16px calc(env(safe-area-inset-bottom) + 120px);transition:transform .55s cubic-bezier(.2,.8,.2,1), opacity .4s ease;transform:{{ listTf }};opacity:{{ listOp }};pointer-events:{{ listPe }}">
+    <div data-list-scroll style="position:absolute;inset:0;overflow-y:auto;padding:{{ topPadB }} 16px calc(env(safe-area-inset-bottom) + 120px);transition:transform .55s cubic-bezier(.2,.8,.2,1), opacity .4s ease;transform:{{ listTf }};opacity:{{ listOp }};pointer-events:{{ listPe }}">
       <div style="display:flex;align-items:center;gap:16px;padding:0 6px 18px">
         <div style="position:relative;width:64px;height:64px;flex:none">
           <svg width="64" height="64" viewBox="0 0 64 64" style="transform:rotate(-90deg)">
@@ -261,11 +261,11 @@ const moonBg = e => `radial-gradient(circle at 36% 34%, ${e.moon[0]} 0%, ${e.moo
 const TAGS = { Boss: [0.26, '#ffe1dc'], Choice: [0.32, '#fff'], Cord: [0.32, '#fff'], Key: [0.26, '#fff4d6'], Ending: [0.36, '#fff'] };
 
 class Component extends DCLogic {
-  state = { endingId: null, checked: {}, open: null, hideDone: false, confirmReset: false, mobile: window.matchMedia('(max-width: 520px)').matches };
+  state = { endingId: null, lastId: null, checked: {}, open: null, hideDone: false, confirmReset: false, mobile: window.matchMedia('(max-width: 520px)').matches };
   componentDidMount() {
     if (this.state.mobile) { for (const el of [document.documentElement, document.body]) { el.style.overflow = 'hidden'; el.style.overscrollBehavior = 'none'; } }
     this._mq = window.matchMedia('(max-width: 520px)'); this._mqf = ev => this.setState({ mobile: ev.matches }); this._mq.addEventListener('change', this._mqf);
-    try { const s = JSON.parse(localStorage.getItem(KEY) || '{}'); this.setState({ checked: s.checked || {}, endingId: s.endingId || null }); } catch (err) {}
+    try { const s = JSON.parse(localStorage.getItem(KEY) || '{}'); const id = ENDINGS.some(x => x.id === s.endingId) ? s.endingId : null; this.setState({ checked: s.checked || {}, endingId: id, lastId: id }); } catch (err) {}
   }
   componentWillUnmount() { if (this._mq) this._mq.removeEventListener('change', this._mqf); clearTimeout(this._t); }
   save(patch) {
@@ -284,16 +284,16 @@ class Component extends DCLogic {
     this.save({ checked: { ...this.state.checked, [eid]: c } });
   }
   renderVals() {
-    const { endingId, checked, open, hideDone, confirmReset, mobile: m } = this.state;
+    const { endingId, lastId, checked, open, hideDone, confirmReset, mobile: m } = this.state;
     const showMoons = this.props.showMoons ?? true;
     const showAll = this.props.expandAll ?? false;
     const endings = ENDINGS.map(e => {
       const st = this.stats(e, checked[e.id] || {});
       return { name: e.name, blurb: e.blurb, accent: acc(e.hue), moonBg: moonBg(e), moonGlow: e.moon[2],
         pctStr: Math.round(st.done / st.live.length * 100) + '%', countStr: st.done + '/' + st.live.length,
-        onPick: () => this.save({ endingId: e.id, open: null, confirmReset: false }) };
+        onPick: () => { if (e.id !== lastId) { const el = document.querySelector('[data-list-scroll]'); if (el) el.scrollTop = 0; } this.save({ endingId: e.id, lastId: e.id, open: null, confirmReset: false }); } };
     });
-    const e = ENDINGS.find(x => x.id === endingId) || ENDINGS[0];
+    const e = ENDINGS.find(x => x.id === (endingId || lastId)) || ENDINGS[0];
     const c = checked[e.id] || {};
     const st = this.stats(e, c), next = st.next;
     const pct = st.done / st.live.length;
