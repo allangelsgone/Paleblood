@@ -241,7 +241,7 @@ const ENDINGS = [
         S('ari-cord', 'Kill Arianna’s newborn for its cord', 'Aqueduct · Cathedral Ward to Tomb of Oedon', 'Missable', 'After you defeat Micolash, Host of the Nightmare, Arianna leaves the chapel. Follow the blood trail from her chair to the aqueduct between the Cathedral Ward and Tomb of Oedon lamps. Killing the newborn also kills Arianna. You get the cord and Arianna’s Shoes.', [L('Micolash', 'Micolash%2C+Host+of+the+Nightmare'), L('Arianna')], { cord: 'arianna', pick: true })
       ]},
       { title: 'Nightmare of Mensis', steps: [
-        wetNurse('Drops a One Third of Umbilical Cord. This one can’t be missed.', { cord: 'wetnurse', pick: true }),
+        wetNurse('Drops a One Third of Umbilical Cord. This one can’t be missed.', { cord: 'wetnurse', pick: true, req: true }),
         S('consume', 'Use three One Third of Umbilical Cord', 'From your inventory', 'Key', 'When doesn’t matter, as long as it’s before Gehrman dies. Using them after losing to him, or even during the fight, still counts.', [L('Umbilical Cord', 'One+Third+of+Umbilical+Cord')])
       ]},
       { title: 'The end of the night', steps: TO_GEHRMAN },
@@ -274,7 +274,7 @@ class Component extends DCLogic {
   stats(e, c) {
     const all = e.phases.flatMap(p => p.steps.filter(s => !s.warn).map(s => ({ s, phase: p.title })));
     const got = new Set(all.filter(x => x.s.pick && c[x.s.id]).map(x => x.s.cord));
-    const spare = s => !!s.cord && got.size >= 3 && !c[s.id] && !got.has(s.cord);
+    const spare = s => !!s.cord && !s.req && got.size >= 3 && !c[s.id] && !got.has(s.cord);
     const live = all.filter(x => !spare(x.s));
     return { live, spare, got: Math.min(got.size, 3), done: live.filter(x => c[x.s.id]).length, next: live.find(x => !c[x.s.id]) };
   }
